@@ -28,6 +28,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
+    implementation("io.ktor:ktor-html-builder:$ktorVersion")
     implementation("ch.qos.logback:logback-classic:$logbackVersion")
 }
 
@@ -60,6 +61,10 @@ tasks {
     }
     named("check") {
         dependsOn(":jacocoTestCoverageVerification")
+    }
+    named<Jar>("jar") {
+        manifest.attributes["Main-Class"] = "com.github.nwillc.kserver.MainKt"
+        // from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     }
     withType<JacocoReport> {
         dependsOn("test")
