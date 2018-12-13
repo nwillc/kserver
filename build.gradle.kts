@@ -3,8 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val coverageThreshold = 0.98
 val jacocoToolVersion = "0.8.2"
 val ktorVersion = "1.0.1"
+val logbackVersion = "1.2.3"
 
 plugins {
+    application
     jacoco
     kotlin("jvm") version "1.3.11"
     id("com.github.nwillc.vplugin") version "2.3.0"
@@ -19,13 +21,18 @@ version = gitVersion.gitVersionInfo.gitVersionName.substring(1)
 logger.lifecycle("${project.name} $version")
 
 repositories {
-    mavenCentral()
+    jcenter()
 }
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
+    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+}
+
+application {
+  mainClassName = "com.github.nwillc.kserver.MainKt"
 }
 
 detekt {
