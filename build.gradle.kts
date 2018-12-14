@@ -3,7 +3,6 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val coverageThreshold = 0.98
 val jacocoToolVersion = "0.8.2"
 val ktorVersion = "1.0.1"
-val logbackVersion = "1.2.3"
 
 plugins {
     application
@@ -32,7 +31,7 @@ dependencies {
     implementation("io.ktor:ktor-html-builder:$ktorVersion")
   //  implementation("ch.qos.logback:logback-classic:$logbackVersion")
     implementation("com.github.nwillc:ksvg:2.1.8")
-    runtime("org.slf4j:slf4j-jdk14:1.7.5")
+    runtime("org.tinylog:slf4j-binding:1.0.1")
 }
 
 application {
