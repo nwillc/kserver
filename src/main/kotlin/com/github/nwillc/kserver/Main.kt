@@ -30,7 +30,7 @@ fun main(args: Array<String>) {
     val server = embeddedServer(Netty, 8080) {
         routing {
             get("/") {
-                val svg = SVG.svg(true) {
+                val svg = SVG.svg {
                     height = "100"
                     width = "100"
                     defs {
