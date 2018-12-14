@@ -13,6 +13,7 @@
 
 package com.github.nwillc.kserver
 
+import com.github.nwillc.ksvg.elements.SVG
 import io.ktor.application.call
 import io.ktor.html.respondHtml
 import io.ktor.routing.get
@@ -29,6 +30,27 @@ fun main(args: Array<String>) {
     val server = embeddedServer(Netty, 8080) {
         routing {
             get("/") {
+                val svg = SVG.svg(true) {
+                    height = "100"
+                    width = "100"
+                    defs {
+                        g {
+                            id = "circle1"
+                            circle {
+                                r = "20"
+                                fill = "blue"
+                                strokeWidth = "2"
+                                stroke = "red"
+                            }
+                        }
+                    }
+                    for (i in 20..80 step 20)
+                        use {
+                            x = i.toString()
+                            y = i.toString()
+                            href = "#circle1"
+                        }
+                }
                 call.respondHtml {
                     head {
                         title { +"Hello World" }
@@ -36,7 +58,7 @@ fun main(args: Array<String>) {
                     body {
                         h1 { +"Hello World" }
                         unsafe {
-                            raw("foobar")
+                            raw(svg.toString())
                         }
                     }
                 }

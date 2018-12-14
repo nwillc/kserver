@@ -13,6 +13,7 @@ plugins {
     id("io.gitlab.arturbosch.detekt") version "1.0.0.RC9.2"
     id("com.github.ngyewch.git-version") version "0.2"
     id("org.jmailen.kotlinter") version "1.20.1"
+    id("com.github.johnrengelman.plugin-shadow") version "2.0.3"
 }
 
 group = "com.github.nwillc"
@@ -29,7 +30,9 @@ dependencies {
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-html-builder:$ktorVersion")
-    implementation("ch.qos.logback:logback-classic:$logbackVersion")
+  //  implementation("ch.qos.logback:logback-classic:$logbackVersion")
+    implementation("com.github.nwillc:ksvg:2.1.8")
+    runtime("org.slf4j:slf4j-jdk14:1.7.5")
 }
 
 application {
@@ -49,22 +52,12 @@ jacoco {
     toolVersion = jacocoToolVersion
 }
 
+
 tasks {
-    jacocoTestCoverageVerification {
-        violationRules {
-            rule {
-                limit {
-                    minimum = coverageThreshold.toBigDecimal()
-                }
-            }
-        }
-    }
-    named("check") {
-        dependsOn(":jacocoTestCoverageVerification")
-    }
+   
+
     named<Jar>("jar") {
         manifest.attributes["Main-Class"] = "com.github.nwillc.kserver.MainKt"
-        // from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     }
     withType<JacocoReport> {
         dependsOn("test")
@@ -80,4 +73,5 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
     }
+
 }
