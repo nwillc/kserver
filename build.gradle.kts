@@ -1,8 +1,11 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+val cliktVersion = "1.6.0"
 val coverageThreshold = 0.98
 val jacocoToolVersion = "0.8.2"
 val ktorVersion = "1.0.1"
+val tinyLogVersion = "1.3.5"
+val versionsPluginVersion = "2.2.0"
 
 plugins {
     application
@@ -28,8 +31,9 @@ dependencies {
     implementation("io.ktor:ktor-server-core:$ktorVersion")
     implementation("io.ktor:ktor-server-netty:$ktorVersion")
     implementation("io.ktor:ktor-html-builder:$ktorVersion")
-    implementation("com.github.nwillc:ksvg:2.2.0")
-    runtime("org.tinylog:slf4j-binding:1.3.5")
+    implementation("com.github.nwillc:ksvg:$versionsPluginVersion")
+    implementation("com.github.ajalt:clikt:$cliktVersion")
+    runtime("org.tinylog:slf4j-binding:$tinyLogVersion")
 }
 
 application {
@@ -51,7 +55,7 @@ jacoco {
 
 tasks {
     named<Jar>("jar") {
-        manifest.attributes["Main-Class"] = "com.github.nwillc.kserver.MainKt"
+        manifest.attributes["Main-Class"] = "com.github.nwillc.kserver.ServerKt"
         from(Callable { configurations["runtimeClasspath"].map { if (it.isDirectory) it else zipTree(it) } })
     }
     withType<JacocoReport> {
